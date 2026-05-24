@@ -2,11 +2,14 @@ package com.project.smartpoint.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_EMPLOYEE")
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +18,8 @@ public class Employee {
     private String email;
     private String password;
 
+    @OneToMany(mappedBy = "employee")
+    Set<Clock> clocks = new HashSet<>();
 
     public Employee() {
     }
@@ -56,6 +61,10 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Clock> getClocks() {
+        return clocks;
     }
 
     @Override
