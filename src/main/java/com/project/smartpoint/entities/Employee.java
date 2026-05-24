@@ -1,5 +1,6 @@
 package com.project.smartpoint.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Employee implements Serializable {
     private String email;
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     Set<Clock> clocks = new HashSet<>();
 

@@ -1,0 +1,39 @@
+package com.project.smartpoint.controllers;
+
+import com.project.smartpoint.entities.Clock;
+import com.project.smartpoint.services.ClockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Set;
+
+@RestController
+@RequestMapping("/clocks")
+public class ClockController {
+
+    @Autowired
+    ClockService clockService;
+
+    @GetMapping
+    public ResponseEntity<List<Clock>> findAll() {
+        List<Clock> clocks = clockService.findAll();
+        return ResponseEntity.ok().body(clocks);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Clock> findById(@PathVariable Long id) {
+        Clock clock = clockService.findById(id).get();
+        return ResponseEntity.ok().body(clock);
+    }
+
+    @GetMapping("/employeeclocks/{employeeId}")
+    public ResponseEntity<Set<Clock>> findByEmployeeId(@PathVariable Long employeeId) {
+        Set<Clock> clocks = clockService.findByEmployeeId(employeeId);
+        return ResponseEntity.ok().body(clocks);
+    }
+}
