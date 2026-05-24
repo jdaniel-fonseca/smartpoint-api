@@ -21,7 +21,10 @@ public class Employee implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    Set<Clock> clocks = new HashSet<>();
+    private Set<Clock> clocks = new HashSet<>();
+
+    @ManyToMany(mappedBy = "employees")
+    private Set<Profile> profiles = new HashSet<>();
 
     public Employee() {
     }
@@ -67,6 +70,10 @@ public class Employee implements Serializable {
 
     public Set<Clock> getClocks() {
         return clocks;
+    }
+
+    public Set<Profile> getProfiles() {
+        return profiles;
     }
 
     @Override
