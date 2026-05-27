@@ -2,8 +2,10 @@ package com.project.smartpoint.dto;
 
 import com.project.smartpoint.entities.Employee;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class EmployeeDTO {
 
    private Long id;
@@ -12,7 +14,7 @@ public class EmployeeDTO {
 
    public EmployeeDTO(Employee employee) {
        this.id = employee.getId();
-       this.email = employee.getEmail();
        this.name = employee.getName();
+       this.email = employee.getEmail();
    }
 }

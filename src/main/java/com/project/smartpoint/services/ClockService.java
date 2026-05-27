@@ -1,5 +1,6 @@
 package com.project.smartpoint.services;
 
+import com.project.smartpoint.dto.ClockDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.ClockRepository;
@@ -20,9 +21,13 @@ public class ClockService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public List<Clock> findAll() {
+    public List<ClockDTO> findAll() {
         List<Clock> clocks = clockRepository.findAll();
-        return clocks;
+
+        List<ClockDTO> clockDTOS = clocks.stream()
+                .map(ClockDTO::new)
+                .toList();
+        return clockDTOS;
     }
 
     public Optional<Clock> findById(Long id) {

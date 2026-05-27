@@ -1,8 +1,7 @@
 package com.project.smartpoint.controllers;
 
 import com.project.smartpoint.dto.EmployeeDTO;
-import com.project.smartpoint.entities.Employee;
-import com.project.smartpoint.repositories.EmployeeRepository;
+import com.project.smartpoint.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +15,11 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    EmployeeRepository employeeService;
+    EmployeeService employeeService;
 
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> findAll() {
-        List<Employee> employees = employeeService.findAll();
-
-        List<EmployeeDTO> dtoList = employees.stream()
-                .map(EmployeeDTO::new)
-                .toList();
-
-        return ResponseEntity.ok().body(dtoList);
+        List<EmployeeDTO> employeeDTOS = employeeService.findAll();
+        return ResponseEntity.ok().body(employeeDTOS);
     }
 }

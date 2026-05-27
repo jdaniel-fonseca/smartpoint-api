@@ -1,5 +1,6 @@
 package com.project.smartpoint.controllers;
 
+import com.project.smartpoint.dto.ClockDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.services.ClockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ClockController {
     ClockService clockService;
 
     @GetMapping
-    public ResponseEntity<List<Clock>> findAll() {
-        List<Clock> clocks = clockService.findAll();
+    public ResponseEntity<List<ClockDTO>> findAll() {
+        List<ClockDTO> clocks = clockService.findAll();
         return ResponseEntity.ok().body(clocks);
     }
 
