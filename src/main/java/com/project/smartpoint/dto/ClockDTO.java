@@ -1,6 +1,4 @@
 package com.project.smartpoint.dto;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.entities.enums.ClockType;

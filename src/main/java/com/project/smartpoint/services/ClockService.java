@@ -2,15 +2,14 @@ package com.project.smartpoint.services;
 
 import com.project.smartpoint.dto.ClockDTO;
 import com.project.smartpoint.entities.Clock;
-import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.ClockRepository;
-import com.project.smartpoint.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ClockService {
@@ -18,24 +17,24 @@ public class ClockService {
     @Autowired
     ClockRepository clockRepository;
 
-    @Autowired
-    EmployeeRepository employeeRepository;
-
     public List<ClockDTO> findAll() {
         List<Clock> clocks = clockRepository.findAll();
 
         List<ClockDTO> clockDTOS = clocks.stream()
                 .map(ClockDTO::new)
                 .toList();
+
         return clockDTOS;
     }
 
-    public Optional<Clock> findById(Long id) {
-        Optional<Clock> clock = clockRepository.findById(id);
-        return clock;
+    public Optional<ClockDTO> findById(Long id) {
+        return clockRepository.findById(id)
+                .map(ClockDTO::new);
     }
 
-    public Set<Clock> findByEmployeeId(Long id) {
-        return clockRepository.findByEmployeeId(id);
+    public Set<ClockDTO> findByEmployeeId(Long id) {
+        return clockRepository.findByEmployeeId(id).stream()
+                .map(ClockDTO::new)
+                .collect(Collectors.toSet());
     }
 }

@@ -27,14 +27,14 @@ public class ClockController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Clock> findById(@PathVariable Long id) {
-        Clock clock = clockService.findById(id).get();
+    public ResponseEntity<ClockDTO> findById(@PathVariable Long id) {
+        ClockDTO clock = clockService.findById(id).get();
         return ResponseEntity.ok().body(clock);
     }
 
     @GetMapping("/employeeclocks/{employeeId}")
-    public ResponseEntity<Set<Clock>> findByEmployeeId(@PathVariable Long employeeId) {
-        Set<Clock> clocks = clockService.findByEmployeeId(employeeId);
+    public ResponseEntity<Set<ClockDTO>> findByEmployeeId(@PathVariable Long employeeId) {
+        Set<ClockDTO> clocks = clockService.findByEmployeeId(employeeId);
         return ResponseEntity.ok().body(clocks);
     }
 }
