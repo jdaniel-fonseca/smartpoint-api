@@ -9,5 +9,5 @@ import java.util.Set;
 public interface ClockRepository extends JpaRepository<Clock, Long> {
 
     Set<Clock> findByEmployeeId(Long employeeId);
-
+    void deleteByEmployeeId(Long employeeId);
 }

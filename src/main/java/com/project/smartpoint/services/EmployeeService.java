@@ -26,5 +26,24 @@ public class EmployeeService {
                 .toList();
         return employeeDTOS;
     }
+
+    public void insert (Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    public void deleteById (Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+    public Employee update (Long id, Employee emp) {
+        Employee employee = employeeRepository.findById(id).get();
+        updateData(employee, emp);
+        return employeeRepository.save(employee);
+    }
+
+    public void updateData (Employee employee, Employee emp) {
+        employee.setEmail(emp.getEmail());
+        employee.setName(emp.getName());
+    }
 }
 

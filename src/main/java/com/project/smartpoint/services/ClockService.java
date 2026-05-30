@@ -37,4 +37,16 @@ public class ClockService {
                 .map(ClockDTO::new)
                 .collect(Collectors.toSet());
     }
+
+    public Clock insert(Clock clock) {
+        return clockRepository.save(clock);
+    }
+
+    public void deleteById(Long id) {
+            clockRepository.deleteById(id);
+    }
+
+    public void deleteByEmployeeId (Long id) {
+        clockRepository.deleteByEmployeeId(id);
+    }
 }
