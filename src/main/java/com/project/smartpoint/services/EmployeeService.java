@@ -3,7 +3,11 @@ package com.project.smartpoint.services;
 import com.project.smartpoint.dto.EmployeeDTO;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.EmployeeRepository;
+import com.project.smartpoint.services.exceptions.DatabaseException;
+import com.project.smartpoint.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +36,15 @@ public class EmployeeService {
     }
 
     public void deleteById (Long id) {
-        employeeRepository.deleteById(id);
+        try {
+            employeeRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public Employee update (Long id, Employee emp) {

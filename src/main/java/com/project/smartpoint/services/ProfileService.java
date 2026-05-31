@@ -1,9 +1,12 @@
 package com.project.smartpoint.services;
-
 import com.project.smartpoint.dto.ProfileDTO;
 import com.project.smartpoint.entities.Profile;
 import com.project.smartpoint.repositories.ProfileRepository;
+import com.project.smartpoint.services.exceptions.DatabaseException;
+import com.project.smartpoint.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +37,15 @@ public class ProfileService {
     }
     
     public void deleteById(Long id) {
-        profileRepository.deleteById(id);
+        try {
+            profileRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public Profile update(Long id, Profile profile) {
