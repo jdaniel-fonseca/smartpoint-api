@@ -5,11 +5,10 @@ import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.services.ClockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
@@ -36,5 +35,29 @@ public class ClockController {
     public ResponseEntity<Set<ClockDTO>> findByEmployeeId(@PathVariable Long employeeId) {
         Set<ClockDTO> clocks = clockService.findByEmployeeId(employeeId);
         return ResponseEntity.ok().body(clocks);
+    }
+
+    @PostMapping
+    public ResponseEntity<Clock> insert(@RequestBody Clock clock) {
+        clock = clockService.insert(clock);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(clock.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(clock);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Clock> deleteById(@PathVariable Long id) {
+        clockService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/dltempclocks/{id}")
+    public ResponseEntity<Clock> deleteByEmployeeId(@PathVariable Long id) {
+        clockService.deleteByEmployeeId(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -27,8 +27,8 @@ public class EmployeeService {
         return employeeDTOS;
     }
 
-    public void insert (Employee employee) {
-        employeeRepository.save(employee);
+    public Employee insert (Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     public void deleteById (Long id) {
@@ -41,7 +41,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void updateData (Employee employee, Employee emp) {
+    private void updateData (Employee employee, Employee emp) {
         employee.setEmail(emp.getEmail());
         employee.setName(emp.getName());
     }

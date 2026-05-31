@@ -29,8 +29,8 @@ public class ProfileService {
                 .map(ProfileDTO::new);
     }
     
-    public void insert (Profile profile) {
-        profileRepository.save(profile);
+    public Profile insert (Profile profile) {
+        return profileRepository.save(profile);
     }
     
     public void deleteById(Long id) {
@@ -43,7 +43,7 @@ public class ProfileService {
         return pro;
     }
 
-    public void updateData(Profile pro, Profile profile) {
+    private void updateData(Profile pro, Profile profile) {
         pro.setProfileType(profile.getProfileType());
     }
 }
