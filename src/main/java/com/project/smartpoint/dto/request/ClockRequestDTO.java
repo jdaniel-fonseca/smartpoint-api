@@ -14,6 +14,6 @@ import java.time.Instant;
 public class ClockRequestDTO {
 
     private Instant moment;
-    private Employee employee;
+    private Long employeeId;
 
 }

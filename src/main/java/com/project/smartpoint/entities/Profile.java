@@ -29,8 +29,7 @@ public class Profile implements Serializable {
     public Profile() {
     }
 
-    public Profile(Long id, ProfileType profileType) {
-        this.id = id;
+    public Profile(ProfileType profileType) {
         setProfileType(profileType);
     }
 

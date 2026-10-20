@@ -49,14 +49,8 @@ public class ClockController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Clock> deleteById(@PathVariable Long id) {
-        clockService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/dltempclocks/{id}")
-    public ResponseEntity<Clock> deleteByEmployeeId(@PathVariable Long id) {
-        clockService.deleteByEmployeeId(id);
+    public ResponseEntity<Clock> deleteById(@PathVariable Long employeeId, @PathVariable Long id) {
+        clockService.deleteById(employeeId, id);
         return ResponseEntity.noContent().build();
     }
 }

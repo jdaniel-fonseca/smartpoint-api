@@ -1,4 +1,4 @@
-package com.project.smartpoint.dto.auth;
+package com.project.smartpoint.dto.request.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
