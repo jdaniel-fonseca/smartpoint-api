@@ -15,12 +15,12 @@ public class ClockResponseDTO {
         private Long id;
         private Instant moment;
         private ClockType clockType;
-        private Employee employee;
+        private Long employeeId;
 
         public ClockResponseDTO(Clock clock) {
             this.id = clock.getId();
             this.moment = clock.getMoment();
             this.clockType = clock.getClockType();
-            this.employee = clock.getEmployee();
+            this.employeeId = clock.getEmployee().getId();
         }
 }

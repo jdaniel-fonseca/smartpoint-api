@@ -1,6 +1,5 @@
 package com.project.smartpoint.services;
 
-import com.project.smartpoint.dto.ClockDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.repositories.ClockRepository;
 import org.springframework.beans.factory.annotation.Autowired;

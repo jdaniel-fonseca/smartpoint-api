@@ -1,6 +1,5 @@
 package com.project.smartpoint.services;
 
-import com.project.smartpoint.dto.EmployeeDTO;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.EmployeeRepository;
 import com.project.smartpoint.services.exceptions.DatabaseException;

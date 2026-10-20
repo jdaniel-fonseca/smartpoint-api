@@ -1,17 +1,13 @@
-package com.project.smartpoint.dto;
+package com.project.smartpoint.dto.response;
 
 import com.project.smartpoint.entities.Profile;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-public class ProfileDTO {
+public class ProfileResponseDTO {
 
     private Long id;
     private Integer profileType;
 
-    public ProfileDTO(Profile profile) {
+    public ProfileResponseDTO(Profile profile) {
         this.id = profile.getId();
         this.profileType = profile.getProfileType().getCode();
     }

@@ -1,6 +1,5 @@
 package com.project.smartpoint.controllers;
 
-import com.project.smartpoint.dto.ProfileDTO;
 import com.project.smartpoint.entities.Profile;
 import com.project.smartpoint.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;

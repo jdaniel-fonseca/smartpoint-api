@@ -1,5 +1,4 @@
 package com.project.smartpoint.services;
-import com.project.smartpoint.dto.ProfileDTO;
 import com.project.smartpoint.entities.Profile;
 import com.project.smartpoint.repositories.ProfileRepository;
 import com.project.smartpoint.services.exceptions.DatabaseException;
