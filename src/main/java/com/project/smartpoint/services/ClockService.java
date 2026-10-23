@@ -1,10 +1,12 @@
 package com.project.smartpoint.services;
 
+import com.project.smartpoint.dto.request.ClockRequestDTO;
 import com.project.smartpoint.dto.response.ClockResponseDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.ClockRepository;
 import com.project.smartpoint.repositories.EmployeeRepository;
+import com.project.smartpoint.services.dtoconverter.ClockDtoConverter;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +20,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ClockService {
@@ -41,12 +41,12 @@ public class ClockService {
     public List<ClockResponseDTO> findAllOfTheDay(Long id) {
 
         ZoneId zone = ZoneId.of("America/Sao_Paulo");
-        LocalDate hoje = LocalDate.now(zone);
+        LocalDate today = LocalDate.now(zone);
 
-        Instant inicioDia = hoje.atStartOfDay(zone).toInstant();
-        Instant fimDia = hoje.atTime(LocalTime.MAX).atZone(zone).toInstant();
+        Instant startOfTheDay = today.atStartOfDay(zone).toInstant();
+        Instant endOfTheDay = today.atTime(LocalTime.MAX).atZone(zone).toInstant();
 
-        return clockRepository.findPointsByEmployeeAndDate(id, inicioDia, fimDia)
+        return clockRepository.findClocksByEmployeeAndDate(id, startOfTheDay, endOfTheDay)
                 .stream()
                 .map(ClockResponseDTO::new)
                 .toList();
@@ -58,10 +58,23 @@ public class ClockService {
                 .map(ClockResponseDTO::new);
     }
 
-    public Clock insert(Clock clock) {
-        return clockRepository.save(clock);
+    @Transactional
+    public ClockResponseDTO update(Long id, ClockRequestDTO clockRequestDTO) {
+        Clock clock = clockRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found."));
+
+        updateData(clockRequestDTO, clock);
+
+        return new ClockResponseDTO(clock);
     }
 
+    @Transactional
+    public Clock insert(Long employeeId, ClockRequestDTO clockRequestDTO) {
+        Employee employee = employeeRepository.getReferenceById(employeeId);
+        return clockRepository.save(ClockDtoConverter.convertClockRequestDtoIntoClock(clockRequestDTO, employee));
+    }
+
+    @Transactional
     public void deleteById(Long employeeId, Long id) {
         Employee employee = employeeRepository.getReferenceById(employeeId);
         for (Clock c : employee.getClocks()) {
@@ -69,5 +82,9 @@ public class ClockService {
                 employee.getClocks().remove(c);
             }
         }
+    }
+
+    private void updateData(ClockRequestDTO clockRequestDTO, Clock clock) {
+        clock.setMoment(clockRequestDTO.getMoment());
     }
 }

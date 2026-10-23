@@ -32,7 +32,7 @@ public interface ClockRepository extends JpaRepository<Clock, Long> {
          AND c.moment <= :fimDia
        ORDER BY c.moment ASC
        """)
-    List<Clock> findPointsByEmployeeAndDate(
+    List<Clock> findClocksByEmployeeAndDate(
             @Param("employeeId") Long employeeId,
             @Param("inicioDia") Instant inicioDia,
             @Param("fimDia") Instant fimDia
