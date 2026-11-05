@@ -1,16 +1,15 @@
 package com.project.smartpoint.services;
 
+import com.project.smartpoint.dto.request.EmployeeRequestDTO;
+import com.project.smartpoint.dto.response.EmployeeResponseDTO;
 import com.project.smartpoint.entities.Employee;
 import com.project.smartpoint.repositories.EmployeeRepository;
-import com.project.smartpoint.services.exceptions.DatabaseException;
-import com.project.smartpoint.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -18,43 +17,42 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public Optional<Employee> findById(Long id) {
-        return employeeRepository.findById(id);
+
+    @Transactional
+    public Page<EmployeeResponseDTO> findAll(Pageable pageable) {
+        return employeeRepository
+                .findAll(pageable)
+                .map(EmployeeResponseDTO::new);
+    };
+
+    @Transactional
+    public EmployeeResponseDTO findById(Long id) {
+        return employeeRepository.findById(id)
+                .map(EmployeeResponseDTO::new)
+                .orElseThrow(() -> new RuntimeException("Id not found."));
     }
 
-    public List<EmployeeDTO> findAll() {
-        List<Employee> employees = employeeRepository.findAll();
-        List<EmployeeDTO> employeeDTOS = employees.stream()
-                .map(EmployeeDTO::new)
-                .toList();
-        return employeeDTOS;
-    }
-
-    public Employee insert (Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
+    @Transactional
     public void deleteById (Long id) {
-        try {
-            employeeRepository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id not found"));
+            employeeRepository.delete(employee);
     }
 
-    public Employee update (Long id, Employee emp) {
-        Employee employee = employeeRepository.findById(id).get();
-        updateData(employee, emp);
-        return employeeRepository.save(employee);
+    @Transactional
+    public EmployeeResponseDTO update (Long id, EmployeeRequestDTO emp) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+       updateData(employee, emp);
+
+        return new EmployeeResponseDTO(employee);
     }
 
-    private void updateData (Employee employee, Employee emp) {
+    private void updateData (Employee employee, EmployeeRequestDTO emp) {
         employee.setEmail(emp.getEmail());
         employee.setName(emp.getName());
+        employee.setPassword(emp.getPassword());
     }
 }
 
