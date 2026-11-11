@@ -1,4 +1,5 @@
 package com.project.smartpoint.services;
+import com.project.smartpoint.dto.response.ProfileResponseDTO;
 import com.project.smartpoint.entities.Profile;
 import com.project.smartpoint.repositories.ProfileRepository;
 import com.project.smartpoint.services.exceptions.DatabaseException;
@@ -17,18 +18,19 @@ public class ProfileService {
     @Autowired
     ProfileRepository profileRepository;
 
-    public List<ProfileDTO> findAll() {
+    public List<ProfileResponseDTO> findAll() {
         List<Profile> profiles = profileRepository.findAll();
-        List<ProfileDTO> profileDTOS = profiles.stream()
-                .map(ProfileDTO::new)
+        List<ProfileResponseDTO> profileDTOS = profiles.stream()
+                .map(ProfileResponseDTO::new)
                 .toList();
 
         return profileDTOS;
     }
     
-    public Optional<ProfileDTO> findById(Long id) {
+    public ProfileResponseDTO findById(Long id) {
         return profileRepository.findById(id)
-                .map(ProfileDTO::new);
+                .map(ProfileResponseDTO::new)
+                .orElseThrow(() -> new RuntimeException("Profile not found."));
     }
     
     public Profile insert (Profile profile) {
@@ -36,21 +38,16 @@ public class ProfileService {
     }
     
     public void deleteById(Long id) {
-        try {
-            profileRepository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(id);
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        Profile profile = profileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found."));
+        profileRepository.delete(profile);
     }
 
     public Profile update(Long id, Profile profile) {
-        Profile pro = profileRepository.findById(id).get();
-        updateData(profile, pro);
-        return pro;
+        Profile prof = profileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found."));
+        updateData(profile, prof);
+        return prof;
     }
 
     private void updateData(Profile pro, Profile profile) {
