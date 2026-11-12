@@ -2,71 +2,44 @@
 
 # 🕒 SmartPoint API
 
-**API REST para controle de ponto eletrônico e gestão de jornadas de trabalho.**
+API REST para registro de ponto eletrônico e gerenciamento de jornadas de trabalho.
 
 ![Java](https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.6-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-Driver-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Configuração_iniciada-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Em_desenvolvimento-yellow?style=for-the-badge)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 
 </div>
 
-## 📖 Sobre o projeto
+## Sobre
 
-A **SmartPoint API** é um projeto back-end de controle de ponto eletrônico, pensado para apoiar o registro de jornadas de trabalho e a evolução de processos de gestão de frequência.
+A SmartPoint é minha API de controle de ponto eletrônico. A ideia é permitir o registro de entradas, saídas e intervalos, além de facilitar a consulta das jornadas de trabalho.
 
-Seu roadmap inclui **geolocalização**, **geração de relatórios em PDF** e **integração com inteligência artificial**, com foco em construir uma aplicação mais completa, modular e preparada para integrações.
+Quero usar este projeto para explorar funcionalidades mais completas, como geolocalização no registro de ponto, relatórios em PDF e integração com IA para analisar dados de jornada. Tudo isso será implementado por etapas.
 
-> 🚧 **Em desenvolvimento:** este README distingue tecnologias presentes no repositório das funcionalidades previstas para próximas versões.
+## Tecnologias
 
-## 🛠️ Tecnologias
+- Java 25
+- Spring Boot 4
+- Spring Web MVC e Spring Data JPA
+- Flyway
+- Maven e Lombok
+- Dockerfile e Docker Compose
+- PostgreSQL e H2 
 
-Identificadas no repositório e no `pom.xml`:
+## O que pretendo implementar
 
-- **Java 25** e **Spring Boot 4.0.6**
-- **Spring Web MVC** para endpoints HTTP
-- **Spring Data JPA** para persistência
-- **MySQL** e **H2** (drivers declarados)
-- **Flyway** (dependência de migrações de banco)
-- **Lombok** e **Maven**
-- **Dockerfile** e **docker-compose.yml** presentes no repositório (execução ainda não verificada)
+- [ ] Consolidar o cadastro de empresas e funcionários
+- [ ] Registrar entrada, saída e intervalos
+- [ ] Consultar histórico e calcular horas trabalhadas
+- [ ] Implementar autenticação e perfis de acesso com Spring Security + JWT
+- [ ] Integrar geolocalização aos registros de ponto
+- [ ] Gerar relatórios em PDF
+- [ ] Integrar IA para consultas e análises das jornadas
+- [ ] Adicionar Swagger / OpenAPI
+- [ ] Criar testes unitários e de integração
+- [ ] Validar o ambiente Docker
+- [ ] deploy na AWS
 
-## 🎯 Visão do produto
-
-O objetivo é evoluir o sistema para oferecer:
-
-- Cadastro e gestão de funcionários
-- Registro de entradas, saídas e intervalos
-- Consulta de histórico de jornadas
-- Relatórios de frequência e horas trabalhadas
-- Registro de localização, com consentimento e regras de privacidade
-- Análises de jornadas apoiadas por IA
-
-**Importante:** esta seção descreve a visão do produto, não uma lista de funcionalidades já concluídas.
-
-## 🧱 Fluxo planejado de registro de ponto
-
-```text
-Aplicação cliente
-    |
-    | Solicitação de registro + localização autorizada
-    v
-SmartPoint API (Spring Boot)
-    |
-    | Autenticação, validações e regras de jornada
-    v
-Camada de persistência (JPA)
-    |
-    v
-Banco de dados
-```
-
-A aplicação cliente poderá utilizar a **Geolocation API do navegador** para solicitar coordenadas. O back-end poderá calcular distâncias até locais autorizados, sem depender necessariamente de um serviço de mapas. Geolocalização do dispositivo exige cuidados com precisão, fraude e proteção de dados pessoais.
-
-## ▶️ Como executar
-
-**Pré-requisito:** JDK 25 e as configurações de ambiente adequadas.
+## Como executar
 
 ```bash
 git clone https://github.com/jdaniel-fonseca/smartpoint-api.git
@@ -74,25 +47,8 @@ cd smartpoint-api
 ./mvnw spring-boot:run
 ```
 
-No Windows, utilize `mvnw.cmd spring-boot:run`.
+No Windows, utilize `mvnw.cmd spring-boot:run`. Verifique as configurações da aplicação e as variáveis de ambiente antes de executar. O repositório também contém arquivos para Docker, mas a configuração ainda está em evolução.
 
-O repositório também contém `Dockerfile`, `docker-compose.yml` e `.env.example`. Confira as variáveis necessárias antes de tentar subir os containers. **Os comandos e serviços não foram testados neste ambiente.**
+## Autor
 
-## 🗺️ Roadmap
-
-- [ ] Consolidar e documentar funcionalidades de registro de ponto
-- [ ] Implementar autenticação JWT e perfis de acesso
-- [ ] Integrar geolocalização e regras de validação de local
-- [ ] Desenvolver relatórios em PDF
-- [ ] Integrar IA para análises e consultas sobre jornadas
-- [ ] Criar testes unitários e de integração
-- [ ] Validar ambiente Docker e Docker Compose
-- [ ] Realizar deploy na AWS
-
-> Para uso real em empresas no Brasil, será necessário avaliar LGPD e regras legais aplicáveis ao registro eletrônico de ponto.
-
-## 👨🏽‍💻 Autor
-
-Desenvolvido por **José Daniel de Oliveira Fonseca**.
-
-[GitHub](https://github.com/jdaniel-fonseca) · [Repositório](https://github.com/jdaniel-fonseca/smartpoint-api)
+[José Daniel](https://github.com/jdaniel-fonseca)
