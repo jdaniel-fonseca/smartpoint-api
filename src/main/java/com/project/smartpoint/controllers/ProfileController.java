@@ -1,5 +1,6 @@
 package com.project.smartpoint.controllers;
 
+import com.project.smartpoint.dto.response.ProfileResponseDTO;
 import com.project.smartpoint.entities.Profile;
 import com.project.smartpoint.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,19 @@ public class ProfileController {
     ProfileService profileService;
 
     @GetMapping
-    ResponseEntity<List<ProfileDTO>> findAll() {
-        List<ProfileDTO> profileDTOS = profileService.findAll();
+    ResponseEntity<List<ProfileResponseDTO>> findAll() {
+        List<ProfileResponseDTO> profileDTOS = profileService.findAll();
         return ResponseEntity.ok().body(profileDTOS);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Profile> update (@PathVariable Long id, @RequestBody Profile profile) {
+    public ResponseEntity<ProfileResponseDTO> update (@PathVariable Long id, @RequestBody Profile profile) {
         profileService.update(id, profile);
-        return ResponseEntity.ok().body(profile);
+        return ResponseEntity.ok().body(new ProfileResponseDTO(profile));
     }
 
     @PostMapping
-    public ResponseEntity<Profile> insert(Profile profile) {
+    public ResponseEntity<ProfileResponseDTO> insert(@RequestBody Profile profile) {
         profile = profileService.insert(profile);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -38,7 +39,7 @@ public class ProfileController {
                 .buildAndExpand(profile.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(profile);
+        return ResponseEntity.created(uri).body(new ProfileResponseDTO(profile));
     }
 
     @DeleteMapping("/{id}")

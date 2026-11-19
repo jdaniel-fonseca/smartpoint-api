@@ -4,6 +4,7 @@ import com.project.smartpoint.dto.request.ClockRequestDTO;
 import com.project.smartpoint.dto.response.ClockResponseDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.entities.Employee;
+import com.project.smartpoint.entities.enums.ClockType;
 import com.project.smartpoint.repositories.ClockRepository;
 import com.project.smartpoint.repositories.EmployeeRepository;
 import com.project.smartpoint.services.dtoconverter.ClockDtoConverter;
