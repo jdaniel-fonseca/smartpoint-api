@@ -1,49 +1,61 @@
+
 package com.project.smartpoint.controllers;
 
-import com.project.smartpoint.entities.Employee;
+import com.project.smartpoint.dto.request.EmployeeRequestDTO;
+import com.project.smartpoint.dto.response.EmployeeResponseDTO;
 import com.project.smartpoint.services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> findAll() {
-        List<EmployeeDTO> employeeDTOS = employeeService.findAll();
-        return ResponseEntity.ok().body(employeeDTOS);
+    public ResponseEntity<Page<EmployeeResponseDTO>> findAll(
+            Pageable pageable) {
+
+        Page<EmployeeResponseDTO> employees =
+                employeeService.findAll(pageable);
+
+        return ResponseEntity.ok(employees);
     }
 
-    @PostMapping
-    public ResponseEntity<Employee> insert(@RequestBody Employee employee){
-        employee = employeeService.insert(employee);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(employee.getId())
-                .toUri();
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDTO> findById(
+            @PathVariable Long id) {
 
-        return ResponseEntity.created(uri).body(employee);
-    }
+        EmployeeResponseDTO employee =
+                employeeService.findById(id);
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Employee> deleteById(@PathVariable Long id) {
-        employeeService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(employee);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee employee) {
-        employeeService.update(id, employee);
-        return ResponseEntity.ok().body(employee);
+    public ResponseEntity<EmployeeResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody EmployeeRequestDTO request) {
+
+        EmployeeResponseDTO employee =
+                employeeService.update(id, request);
+
+        return ResponseEntity.ok(employee);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(
+            @PathVariable Long id) {
+
+        employeeService.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -20,8 +20,10 @@ import java.util.Set;
 @RequestMapping("/clocks")
 public class ClockController {
 
-    @Autowired
-    ClockService clockService;
+    private final ClockService clockService;
+    public ClockController(ClockService clockService) {
+        this.clockService = clockService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<List<ClockResponseDTO>> findAllOfTheDay(@PathVariable Long id) {
