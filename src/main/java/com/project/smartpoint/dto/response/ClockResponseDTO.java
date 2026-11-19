@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 
 @Data
-@NoArgsConstructor
 public class ClockResponseDTO {
 
         private Long id;

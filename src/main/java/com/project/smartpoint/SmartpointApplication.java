@@ -9,6 +9,4 @@ public class SmartpointApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmartpointApplication.class, args);
 	}
-
-
 }

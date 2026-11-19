@@ -25,13 +25,13 @@ public class ClockController {
         this.clockService = clockService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/allclocksoftheday/{id}")
     public ResponseEntity<List<ClockResponseDTO>> findAllOfTheDay(@PathVariable Long id) {
         List<ClockResponseDTO> clocks = clockService.findAllOfTheDay(id);
         return ResponseEntity.ok().body(clocks);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/allclocksbyemployee/{id}")
     public ResponseEntity<Page<ClockResponseDTO>> findByEmployeeId(@PageableDefault(size = 31) Pageable pageable, @PathVariable Long id) {
         Page<ClockResponseDTO> clockResponseDTOS = clockService.findAllByEmployeeId(pageable, id);
         return ResponseEntity.ok().body(clockResponseDTOS);
@@ -49,7 +49,7 @@ public class ClockController {
         return ResponseEntity.ok().body(clockResponseDTO);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ClockResponseDTO> insert(@RequestBody ClockRequestDTO clockRequestDTO) {
         ClockResponseDTO clockResponseDto = clockService.insert(clockRequestDTO);
         URI uri = ServletUriComponentsBuilder
@@ -59,7 +59,7 @@ public class ClockController {
         return ResponseEntity.created(uri).body(clockResponseDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{employeeId}/{id}")
     public ResponseEntity<Clock> deleteById(@PathVariable Long employeeId, @PathVariable Long id) {
         clockService.deleteById(employeeId, id);
         return ResponseEntity.noContent().build();

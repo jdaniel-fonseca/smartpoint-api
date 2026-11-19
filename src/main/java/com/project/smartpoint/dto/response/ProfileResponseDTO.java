@@ -1,7 +1,9 @@
 package com.project.smartpoint.dto.response;
 
 import com.project.smartpoint.entities.Profile;
+import lombok.Data;
 
+@Data
 public class ProfileResponseDTO {
 
     private Long id;

@@ -33,10 +33,7 @@ public class ClockDtoConverter {
     }
 
     public static ClockResponseDTO convertClockToResponseClockDto(Clock clock) {
-        ClockResponseDTO clockResponseDTO = new ClockResponseDTO();
-        clockResponseDTO.setClockType(clock.getClockType());
-        clockResponseDTO.setMoment(clock.getMoment());
-        clockResponseDTO.setEmployeeId(clock.getEmployee().getId());
+        ClockResponseDTO clockResponseDTO = new ClockResponseDTO(clock);
         return clockResponseDTO;
     }
 
