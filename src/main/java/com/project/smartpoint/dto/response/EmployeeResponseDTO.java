@@ -7,7 +7,10 @@ import com.project.smartpoint.services.dtoconverter.ClockDtoConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeResponseDTO {
+public class
+
+
+EmployeeResponseDTO {
 
     private Long id;
     private String name;

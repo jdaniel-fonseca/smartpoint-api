@@ -69,9 +69,10 @@ public class ClockService {
     }
 
     @Transactional
-    public Clock insert(Long employeeId, ClockRequestDTO clockRequestDTO) {
-        Employee employee = employeeRepository.getReferenceById(employeeId);
-        return clockRepository.save(ClockDtoConverter.convertClockRequestDtoIntoClock(clockRequestDTO, employee));
+    public ClockResponseDTO insert(ClockRequestDTO clockRequestDTO) {
+        Employee employee = employeeRepository.getReferenceById(clockRequestDTO.getEmployeeId());
+        Clock clock = clockRepository.save(ClockDtoConverter.convertClockRequestDtoIntoClock(clockRequestDTO, employee));
+        return new ClockResponseDTO(clock);
     }
 
     @Transactional

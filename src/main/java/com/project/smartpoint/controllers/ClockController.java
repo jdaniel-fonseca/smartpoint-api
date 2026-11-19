@@ -1,8 +1,13 @@
 package com.project.smartpoint.controllers;
 
+import com.project.smartpoint.dto.request.ClockRequestDTO;
+import com.project.smartpoint.dto.response.ClockResponseDTO;
 import com.project.smartpoint.entities.Clock;
 import com.project.smartpoint.services.ClockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,34 +23,38 @@ public class ClockController {
     @Autowired
     ClockService clockService;
 
-    @GetMapping
-    public ResponseEntity<List<ClockDTO>> findAll() {
-        List<ClockDTO> clocks = clockService.findAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ClockResponseDTO>> findAllOfTheDay(@PathVariable Long id) {
+        List<ClockResponseDTO> clocks = clockService.findAllOfTheDay(id);
         return ResponseEntity.ok().body(clocks);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClockDTO> findById(@PathVariable Long id) {
-        ClockDTO clock = clockService.findById(id).get();
+    public ResponseEntity<Page<ClockResponseDTO>> findByEmployeeId(@PageableDefault(size = 31) Pageable pageable, @PathVariable Long id) {
+        Page<ClockResponseDTO> clockResponseDTOS = clockService.findAllByEmployeeId(pageable, id);
+        return ResponseEntity.ok().body(clockResponseDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClockResponseDTO> findById(@PathVariable Long id) {
+        ClockResponseDTO clock = clockService.findById(id).get();
         return ResponseEntity.ok().body(clock);
     }
 
-    @GetMapping("/employeeclocks/{employeeId}")
-    public ResponseEntity<Set<ClockDTO>> findByEmployeeId(@PathVariable Long employeeId) {
-        Set<ClockDTO> clocks = clockService.findByEmployeeId(employeeId);
-        return ResponseEntity.ok().body(clocks);
+    @PutMapping("/{id}")
+    public ResponseEntity<ClockResponseDTO> update(@PathVariable Long id, @RequestBody ClockRequestDTO clockRequestDTO) {
+        ClockResponseDTO clockResponseDTO = clockService.update(id, clockRequestDTO);
+        return ResponseEntity.ok().body(clockResponseDTO);
     }
 
-    @PostMapping
-    public ResponseEntity<Clock> insert(@RequestBody Clock clock) {
-        clock = clockService.insert(clock);
+    @PostMapping()
+    public ResponseEntity<ClockResponseDTO> insert(@RequestBody ClockRequestDTO clockRequestDTO) {
+        ClockResponseDTO clockResponseDto = clockService.insert(clockRequestDTO);
         URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(clock.getId())
+                .fromCurrentRequest().path("/id")
+                .buildAndExpand(clockResponseDto.getId())
                 .toUri();
-
-        return ResponseEntity.created(uri).body(clock);
+        return ResponseEntity.created(uri).body(clockResponseDto);
     }
 
     @DeleteMapping("/{id}")
@@ -54,3 +63,4 @@ public class ClockController {
         return ResponseEntity.noContent().build();
     }
 }
+
